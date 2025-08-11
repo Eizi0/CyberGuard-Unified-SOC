@@ -1,0 +1,116 @@
+version: '3.8'
+
+services:
+  # Backend API Service
+  backend:
+    build: ../backend
+    container_name: cyberguard-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+    volumes:
+      - ../backend:/app
+    depends_on:
+      - mongodb
+
+  # Frontend Service
+  frontend:
+    build: ../frontend
+    container_name: cyberguard-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../frontend:/app
+    depends_on:
+      - backend
+
+  # MongoDB for Backend
+  mongodb:
+    image: mongo:latest
+    container_name: cyberguard-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  # Wazuh Manager
+  wazuh-manager:
+    build: ./wazuh
+    container_name: wazuh-manager
+    ports:
+      - "1514:1514"
+      - "1515:1515"
+      - "55000:55000"
+    volumes:
+      - wazuh_data:/var/ossec
+
+  # Graylog
+  graylog:
+    build: ./graylog
+    container_name: graylog
+    ports:
+      - "9000:9000"
+    environment:
+      - GRAYLOG_PASSWORD_SECRET=somepasswordpepper
+      - GRAYLOG_ROOT_PASSWORD_SHA2=changeme
+    depends_on:
+      - mongodb
+      - elasticsearch
+
+  # TheHive
+  thehive:
+    build: ./thehive
+    container_name: thehive
+    ports:
+      - "9001:9001"
+    volumes:
+      - thehive_data:/opt/thp/thehive/data
+
+  # MISP
+  misp:
+    build: ./misp
+    container_name: misp
+    ports:
+      - "443:443"
+    volumes:
+      - misp_data:/var/www/MISP/app/files
+
+  # OpenCTI
+  opencti:
+    build: ./opencti
+    container_name: opencti
+    ports:
+      - "8080:8080"
+    environment:
+      - OPENCTI_ADMIN_EMAIL=admin@cyberguard.local
+      - OPENCTI_ADMIN_PASSWORD=changeme
+    volumes:
+      - opencti_data:/opt/opencti/data
+
+  # Velociraptor
+  velociraptor:
+    build: ./velociraptor
+    container_name: velociraptor
+    ports:
+      - "8889:8889"
+    volumes:
+      - velociraptor_data:/opt/velociraptor/data
+
+  # Shuffle
+  shuffle:
+    build: ./shuffle
+    container_name: shuffle
+    ports:
+      - "3443:3443"
+    volumes:
+      - shuffle_data:/opt/shuffle/data
+
+volumes:
+  mongodb_data:
+  wazuh_data:
+  thehive_data:
+  misp_data:
+  opencti_data:
+  velociraptor_data:
+  shuffle_data:

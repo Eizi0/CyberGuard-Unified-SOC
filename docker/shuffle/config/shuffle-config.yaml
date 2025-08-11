@@ -1,0 +1,66 @@
+execution_timeout: 600
+execution_org: Shuffle
+app_hotload_folder: /shuffle/apps
+app_download_folder: /shuffle/apps/generated
+app_backup_folder: /shuffle/apps/backup
+docker_network: shuffle
+docker_api_version: 1.40
+
+webhook_address: http://localhost:3443
+base_url: http://localhost:3443
+
+log_level: DEBUG
+log_folder: /shuffle/logs
+
+SSO_REDIRECT_URL: http://localhost:3443
+BACKEND_HOSTNAME: backend
+FRONTEND_HOSTNAME: frontend
+BACKEND_PORT: 5001
+FRONTEND_PORT: 3001
+
+# Authentication
+authentication_key: CHANGE_THIS_AUTHENTICATION_KEY
+environment: Shuffle
+
+# SSL/TLS
+ssl_key: /shuffle/https/key.pem
+ssl_certificate: /shuffle/https/certificate.pem
+
+# Database
+db_location: /shuffle/opensearch
+db_host: opensearch
+db_port: 9200
+db_username: admin
+db_password: admin
+
+# Redis configuration
+redis_hostname: redis
+redis_port: 6379
+redis_password: ""
+
+# Worker configuration
+number_of_workers: 3
+worker_timeout: 300
+
+# Integrations
+integrations:
+  wazuh:
+    url: http://wazuh-manager:55000
+    username: wazuh
+    password: wazuh
+
+  thehive:
+    url: http://thehive:9000
+    key: YOUR_API_KEY
+
+  misp:
+    url: http://misp
+    key: YOUR_API_KEY
+
+  opencti:
+    url: http://opencti:8080
+    key: YOUR_API_KEY
+
+  graylog:
+    url: http://graylog:9000
+    token: YOUR_API_TOKEN

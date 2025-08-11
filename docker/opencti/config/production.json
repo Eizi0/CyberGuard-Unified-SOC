@@ -1,0 +1,50 @@
+{
+  "app": {
+    "port": 8080,
+    "base_path": "",
+    "base_url": "http://localhost:8080",
+    "enabled": true,
+    "https_cert": {
+      "key": "ssl/key.pem",
+      "crt": "ssl/cert.pem"
+    },
+    "admin": {
+      "email": "admin@opencti.io",
+      "password": "changeme",
+      "token": "changeme"
+    }
+  },
+  "elasticsearch": {
+    "url": "http://elasticsearch:9200"
+  },
+  "minio": {
+    "endpoint": "minio:9000",
+    "port": 9000,
+    "bucket_name": "opencti-bucket",
+    "access_key": "changeme",
+    "secret_key": "changeme"
+  },
+  "rabbitmq": {
+    "hostname": "rabbitmq",
+    "port": 5672,
+    "username": "opencti",
+    "password": "changeme",
+    "management_port": 15672
+  },
+  "redis": {
+    "hostname": "redis",
+    "port": 6379
+  },
+  "providers": {
+    "misp": {
+      "url": "http://misp",
+      "key": "changeme",
+      "tag": "MISP"
+    },
+    "thehive": {
+      "url": "http://thehive:9000",
+      "key": "changeme",
+      "organisation": "OpenCTI"
+    }
+  }
+}
