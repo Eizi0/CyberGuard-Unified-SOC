@@ -1,4 +1,4 @@
-FROM thehiveproject/thehive4:4.1.19
+FROM thehiveproject/thehive4:4.1.19-1
 
 # Configuration personnalisée
 COPY config/application.conf /etc/thehive/application.conf

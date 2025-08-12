@@ -1,54 +1,135 @@
 # CyberGuard Unified SOC
 
-CyberGuard Unified SOC est une solution open source de Security Operations Center (SOC) qui intègre plusieurs outils de sécurité populaires dans une interface unifiée et facile à utiliser.
-
-## Composants
-
-- Wazuh - SIEM & XDR
-- Graylog - Log Management
-- TheHive - Case Management
-- MISP - Threat Intelligence Platform
-- OpenCTI - Cyber Threat Intelligence
-- Velociraptor - Digital Forensics
-- Shuffle - Security Orchestration & Automation
+## Description
+CyberGuard Unified SOC est une plateforme de sécurité unifiée qui intègre plusieurs outils de cybersécurité pour fournir une vue d'ensemble complète de la sécurité de votre infrastructure.
 
 ## Architecture
+La plateforme intègre les outils suivants :
+- **Frontend** : Interface utilisateur React
+- **Backend** : API FastAPI Python
+- **Wazuh** : Système de détection d'intrusion
+- **Graylog** : Gestion et analyse des logs
+- **TheHive** : Gestion des incidents
+- **MISP** : Partage d'informations sur les menaces
+- **OpenCTI** : Plateforme de Threat Intelligence
+- **Velociraptor** : Collecte d'artefacts numériques
+- **Shuffle** : Orchestration et automatisation
 
-Le projet est construit avec une architecture microservices utilisant Docker :
+## Prérequis
+- Windows 10/11 ou Windows Server 2019+
+- Docker Desktop pour Windows
+- Docker Compose v2.0+
+- PowerShell 5.1+
+- Au moins 16 GB de RAM
+- 100 GB d'espace disque libre
 
+## Installation Rapide
+
+### 1. Vérification des prérequis
+```powershell
+# Vérifier Docker
+docker --version
+docker-compose --version
+
+# Vérifier PowerShell
+$PSVersionTable.PSVersion
 ```
-CyberGuard-Unified-SOC/
-├── docker/           # Configurations Docker pour chaque composant
-├── backend/          # API Backend (FastAPI)
-├── frontend/        # Interface utilisateur React
-└── docs/           # Documentation
+
+### 2. Configuration
+```powershell
+# Cloner le projet
+git clone [URL_DU_REPO]
+cd "CyberGuard Unified SOC"
+
+# Vérifier le fichier .env (déjà configuré)
+Get-Content .env
 ```
 
-## Installation
+### 3. Déploiement
+```powershell
+# Exécuter le script de déploiement
+powershell -ExecutionPolicy Bypass -File scripts\deploy.ps1
 
-1. Prérequis :
-   - Docker et Docker Compose
-   - Git
-   - Make (optionnel)
-
-2. Clone du dépôt :
-```bash
-git clone https://github.com/votre-username/cyberguard-unified-soc.git
-cd cyberguard-unified-soc
-```
-
-3. Configuration :
-```bash
-cp .env.example .env
-# Modifier les variables dans .env selon votre environnement
-```
-
-4. Démarrage :
-```bash
+# Ou déploiement manuel
+cd docker
+docker-compose down -v
+docker-compose build --no-cache
 docker-compose up -d
 ```
 
-## Configuration
+### 4. Validation
+```powershell
+# Exécuter le script de validation
+powershell -ExecutionPolicy Bypass -File scripts\validate.ps1
+
+# Ou vérification manuelle
+docker-compose ps
+```
+
+## Accès aux Services
+
+| Service | URL | Utilisateur | Mot de passe |
+|---------|-----|-------------|--------------|
+| Frontend | http://localhost:3000 | - | - |
+| Backend API | http://localhost:8000 | - | - |
+| Graylog | http://localhost:9000 | admin | admin |
+| TheHive | http://localhost:9001 | admin@thehive.local | secret |
+| MISP | https://localhost:443 | admin@admin.test | admin |
+| OpenCTI | http://localhost:8080 | admin@cyberguard.local | cyberguard_admin |
+| Velociraptor | http://localhost:8889 | admin | cyberguard_velociraptor_password |
+| Shuffle | https://localhost:3443 | admin | cyberguard_shuffle_secret |
+
+## Dépannage
+
+### Services qui ne démarrent pas
+```powershell
+# Vérifier l'état des conteneurs
+docker-compose ps
+
+# Consulter les logs
+docker-compose logs [service_name]
+
+# Redémarrer un service spécifique
+docker-compose restart [service_name]
+```
+
+### Problèmes de ressources
+```powershell
+# Vérifier l'utilisation des ressources
+docker stats
+
+# Nettoyer les ressources inutilisées
+docker system prune -f
+docker volume prune -f
+```
+
+### Réinitialisation complète
+```powershell
+# Arrêter tous les services
+docker-compose down -v
+
+# Supprimer toutes les images
+docker rmi $(docker images -q)
+
+# Redéployer
+powershell -ExecutionPolicy Bypass -File scripts\deploy.ps1
+```
+
+## Documentation
+- [Guide d'Installation](docs/installation.md)
+- [Configuration](docs/configuration.md)
+- [Guide Utilisateur](docs/user-guide.md)
+- [Dépannage](docs/troubleshooting.md)
+- [Architecture](docs/architecture.md)
+
+## Support
+Pour obtenir de l'aide :
+1. Consultez la documentation dans le dossier `docs/`
+2. Vérifiez les issues sur GitHub
+3. Contactez l'équipe de support
+
+## Licence
+Ce projet est sous licence MIT. Voir le fichier LICENSE pour plus de détails.
 
 Chaque composant nécessite une configuration spécifique :
 

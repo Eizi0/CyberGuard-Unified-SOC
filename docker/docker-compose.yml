@@ -24,8 +24,9 @@ services:
       - "3000:3000"
     volumes:
       - ../frontend:/app
-    depends_on:
-      - backend
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    restart: unless-stopped
 
   # MongoDB for Backend
   mongodb:
@@ -59,11 +60,12 @@ services:
     build: ./wazuh
     container_name: wazuh-manager
     ports:
-      - "1514:1514"
+      - "1514:1514/udp"
       - "1515:1515"
       - "55000:55000"
     volumes:
       - wazuh_data:/var/ossec
+    restart: unless-stopped
 
   # Graylog
   graylog:
@@ -95,6 +97,9 @@ services:
       - "9001:9001"
     volumes:
       - thehive_data:/opt/thp/thehive/data
+    environment:
+      - THP_SECRET=${THEHIVE_SECRET:-changeme_in_production}
+    restart: unless-stopped
 
   # MISP
   misp:
@@ -102,8 +107,32 @@ services:
     container_name: misp
     ports:
       - "443:443"
+      - "80:80"
     volumes:
       - misp_data:/var/www/MISP/app/files
+    environment:
+      - MYSQL_HOST=misp-db
+      - MYSQL_DATABASE=misp
+      - MYSQL_USER=misp
+      - MYSQL_PASSWORD=misp
+      - REDIS_HOST=redis
+    depends_on:
+      - misp-db
+      - redis
+    restart: unless-stopped
+
+  # MySQL Database for MISP
+  misp-db:
+    image: mysql:8.0
+    container_name: misp-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=misp
+      - MYSQL_USER=misp
+      - MYSQL_PASSWORD=misp
+    volumes:
+      - misp_db_data:/var/lib/mysql
+    restart: unless-stopped
 
   # Redis for OpenCTI
   redis:
@@ -140,6 +169,7 @@ services:
       - "8889:8889"
     volumes:
       - velociraptor_data:/opt/velociraptor/data
+    restart: unless-stopped
 
   # Shuffle
   shuffle:
@@ -149,6 +179,7 @@ services:
       - "3443:3443"
     volumes:
       - shuffle_data:/opt/shuffle/data
+    restart: unless-stopped
 
 volumes:
   mongodb_data:
@@ -158,6 +189,7 @@ volumes:
   wazuh_data:
   thehive_data:
   misp_data:
+  misp_db_data:
   opencti_data:
   velociraptor_data:
   shuffle_data:

@@ -41,7 +41,7 @@ $config = array(
         'password' => '',
     ),
     'Database' => array(
-        'host' => 'db',
+        'host' => 'misp-db',
         'port' => 3306,
         'database' => 'misp',
         'username' => 'misp',

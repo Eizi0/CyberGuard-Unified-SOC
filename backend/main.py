@@ -35,3 +35,11 @@ async def root():
         "version": "1.0.0",
         "status": "running"
     }
+
+@app.get("/health")
+async def health_check():
+    return {
+        "status": "healthy",
+        "service": "cyberguard-backend",
+        "timestamp": "2025-08-13T00:00:00Z"
+    }
