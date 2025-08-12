@@ -9,10 +9,12 @@ services:
       - "8000:8000"
     environment:
       - ENVIRONMENT=development
+      - MONGODB_URI=mongodb://mongodb:27017/cyberguard
     volumes:
       - ../backend:/app
     depends_on:
       - mongodb
+    restart: unless-stopped
 
   # Frontend Service
   frontend:
@@ -31,8 +33,26 @@ services:
     container_name: cyberguard-mongodb
     ports:
       - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongodb_data:/data/db
+    restart: unless-stopped
+      
+  # Elasticsearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    container_name: cyberguard-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    restart: unless-stopped
 
   # Wazuh Manager
   wazuh-manager:
@@ -48,15 +68,24 @@ services:
   # Graylog
   graylog:
     build: ./graylog
-    container_name: graylog
+    container_name: cyberguard-graylog
     ports:
       - "9000:9000"
+      - "12201:12201/udp"
+      - "1514:1514"
     environment:
-      - GRAYLOG_PASSWORD_SECRET=somepasswordpepper
-      - GRAYLOG_ROOT_PASSWORD_SHA2=changeme
+      - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD_SECRET}
+      - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_ROOT_PASSWORD_SHA2}
+      - GRAYLOG_HTTP_EXTERNAL_URI=${GRAYLOG_HTTP_EXTERNAL_URI}
+      - GRAYLOG_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - GRAYLOG_MONGODB_URI=mongodb://mongodb:27017/graylog
     depends_on:
       - mongodb
       - elasticsearch
+    volumes:
+      - graylog_data:/usr/share/graylog/data
+      - graylog_journal:/usr/share/graylog/data/journal
+    restart: unless-stopped
 
   # TheHive
   thehive:
@@ -76,17 +105,32 @@ services:
     volumes:
       - misp_data:/var/www/MISP/app/files
 
+  # Redis for OpenCTI
+  redis:
+    image: redis:6.2
+    container_name: cyberguard-redis
+    restart: unless-stopped
+    
   # OpenCTI
   opencti:
     build: ./opencti
-    container_name: opencti
+    container_name: cyberguard-opencti
     ports:
       - "8080:8080"
     environment:
-      - OPENCTI_ADMIN_EMAIL=admin@cyberguard.local
-      - OPENCTI_ADMIN_PASSWORD=changeme
+      - OPENCTI_ADMIN_EMAIL=${OPENCTI_ADMIN_EMAIL}
+      - OPENCTI_ADMIN_PASSWORD=${OPENCTI_ADMIN_PASSWORD}
+      - OPENCTI_BASE_URL=${OPENCTI_BASE_URL}
+      - OPENCTI_TOKEN=${OPENCTI_TOKEN:-ChangeMe}
+      - ELASTIC_MEMORY_SIZE=512M
+      - REDIS_HOSTNAME=redis
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
     volumes:
       - opencti_data:/opt/opencti/data
+    depends_on:
+      - redis
+      - elasticsearch
+    restart: unless-stopped
 
   # Velociraptor
   velociraptor:
@@ -108,6 +152,9 @@ services:
 
 volumes:
   mongodb_data:
+  elasticsearch_data:
+  graylog_data:
+  graylog_journal:
   wazuh_data:
   thehive_data:
   misp_data:

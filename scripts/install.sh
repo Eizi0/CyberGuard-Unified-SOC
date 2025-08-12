@@ -48,8 +48,15 @@ print_success "System requirements checked"
 
 # Create necessary directories
 print_message "Creating necessary directories..."
-mkdir -p data/{wazuh,graylog,thehive,misp,opencti,velociraptor,shuffle}
+mkdir -p data/{mongodb,elasticsearch,graylog,graylog_journal,wazuh,thehive,misp,opencti,velociraptor,shuffle}
+chmod -R 777 data/
 print_success "Directories created"
+
+# Verify .env file exists
+if [ ! -f .env ]; then
+    print_error ".env file not found. Please create it from the template."
+    exit 1
+fi
 
 # Generate necessary certificates and keys
 print_message "Generating certificates and keys..."
@@ -63,6 +70,11 @@ print_success "Docker images built"
 
 # Start the services
 print_message "Starting CyberGuard services..."
+print_message "Starting databases first..."
+docker-compose up -d mongodb elasticsearch redis
+sleep 30
+
+print_message "Starting main services..."
 docker-compose up -d
 print_success "Services started"
 
