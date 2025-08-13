@@ -45,32 +45,6 @@ La plateforme intègre les outils suivants dans une architecture containerisée 
 
 ---
 
-## 🎨 Interface Utilisateur
-
-<div align="center">
-  
-  ### **🌟 Design Moderne avec Logo CSU Intégré**
-  
-  Notre interface utilisateur arbore fièrement le logo CSU dans toutes les sections principales :
-  
-  | Section | Description | Logo |
-  |---------|-------------|------|
-  | 🔐 **Page de Connexion** | Authentification sécurisée | Logo 100px centré |
-  | 📱 **Navigation** | Barre supérieure avec menu | Logo 40px + titre |
-  | 📋 **Menu Latéral** | Navigation entre services | Logo 32px compact |
-  | 🏠 **Dashboard** | Page d'accueil principale | Logo 60px + description |
-  
-  **✨ Fonctionnalités UI :**
-  - 🎨 Design Material-UI moderne
-  - 🌙 Thème sombre adaptatif
-  - 📱 Interface responsive
-  - 🔐 Système d'authentification intégré
-  - 🚪 Déconnexion sécurisée
-  
-</div>
-
----
-
 ## 🖥️ Prérequis
 
 ### **Configuration Matérielle**
@@ -296,49 +270,6 @@ powershell -ExecutionPolicy Bypass -File scripts\deploy.ps1
 ```bash
 sudo ./scripts/purge.sh
 sudo ./scripts/install.sh
-```
-
----
-
-## 🎨 Identité Visuelle et Branding
-
-<div align="center">
-  
-  ### **🏢 CSU - CyberGuard Unified SOC**
-  
-  ![CSU Logo](Logo/CSU Logo.png)
-  
-</div>
-
-### **🎯 Charte Graphique**
-
-| Élément | Spécification | Utilisation |
-|---------|---------------|-------------|
-| **Logo Principal** | `Logo/CSU Logo.png` | Interface principale |
-| **Logo Frontend** | `frontend/src/assets/csu-logo.png` | Application web |
-| **Couleurs** | Material-UI Dark Theme | Interface utilisateur |
-| **Typographie** | Roboto, sans-serif | Textes et titres |
-
-### **📱 Intégration Logo**
-
-- ✅ **Page de Connexion** - Logo proéminent 100px
-- ✅ **Barre de Navigation** - Logo 40px avec filtre blanc
-- ✅ **Menu Latéral** - Logo 32px avec titre abrégé
-- ✅ **Dashboard** - Logo 60px avec en-tête complet
-- ✅ **Documentation** - Logo dans README et docs
-
-### **🔧 Personnalisation**
-
-Pour personnaliser le logo :
-
-1. **Remplacer** le fichier `Logo/CSU Logo.png`
-2. **Copier** vers `frontend/src/assets/csu-logo.png`
-3. **Redéployer** le frontend
-
-```bash
-# Automatique avec nos scripts
-npm run build        # Frontend
-docker compose up -d # Déploiement
 ```
 
 ---
