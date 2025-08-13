@@ -169,7 +169,7 @@ $PSVersionTable.PSVersion
 #### **2. Déploiement Automatisé**
 ```powershell
 # Cloner le projet
-git clone https://github.com/votre-org/cyberguard-unified-soc.git
+git clone https://github.com/Eizi0/CyberGuard-Unified-SOC.git
 cd "CyberGuard Unified SOC"
 
 # Déploiement complet
@@ -187,8 +187,8 @@ powershell -ExecutionPolicy Bypass -File scripts\validate.ps1
 #### **1. Installation Automatisée**
 ```bash
 # Cloner le projet
-git clone https://github.com/votre-org/cyberguard-unified-soc.git
-cd cyberguard-unified-soc
+git clone https://github.com/Eizi0/CyberGuard-Unified-SOC.git
+cd CyberGuard-Unified-SOC
 
 # Rendre les scripts exécutables
 chmod +x scripts/*.sh
