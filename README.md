@@ -493,8 +493,6 @@ docker-compose logs -f
   
   **Ce projet est sous licence MIT**
   
-  ![CSU Logo](Logo/CSU Logo.png)
-  
   © 2025 **CyberGuard Unified SOC** - Tous droits réservés
   
   Voir le fichier [`LICENSE`](./LICENSE) pour plus de détails.
