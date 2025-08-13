@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Card, CardContent, Typography, Box } from '@mui/material';
 import { useWazuhApi } from '../hooks/useWazuhApi';
+import csuLogo from '../assets/csu-logo.png';
 
 const DashboardMetric = ({ title, value, color }) => (
   <Card sx={{ height: '100%' }}>
@@ -21,9 +22,26 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Dashboard
-      </Typography>
+      {/* Header with Logo */}
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+        <img 
+          src={csuLogo} 
+          alt="CSU Logo" 
+          style={{ 
+            height: '60px', 
+            width: 'auto',
+            marginRight: '16px'
+          }} 
+        />
+        <Box>
+          <Typography variant="h4" gutterBottom sx={{ mb: 0 }}>
+            CyberGuard Unified SOC
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary">
+            Security Operations Center Dashboard
+          </Typography>
+        </Box>
+      </Box>
       
       <Grid container spacing={3}>
         {/* Wazuh Metrics */}

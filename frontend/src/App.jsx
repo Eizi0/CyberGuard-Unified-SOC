@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
 import Layout from './layouts/Layout';
 import Dashboard from './components/Dashboard';
+import LoginPage from './components/auth/LoginPage';
 import AgentsList from './components/wazuh/AgentsList';
 import AlertsList from './components/wazuh/AlertsList';
 
@@ -26,11 +27,33 @@ const theme = createTheme({
 });
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setIsAuthenticated(false);
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <LoginPage onLogin={handleLogin} />
+      </ThemeProvider>
+    );
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <Layout>
+        <Layout user={user} onLogout={handleLogout}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/wazuh" element={<AgentsList />} />

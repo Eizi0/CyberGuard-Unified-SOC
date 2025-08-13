@@ -1,4 +1,22 @@
-# CyberGuard Unified SOC
+<div align="center">
+  <img src="Logo/CSU Logo.png" alt="CSU Logo" width="200"/>
+  
+  # CyberGuard Unified SOC
+  
+  **🚀 Plateforme de Sécurité Unifiée - Security Operations Center**
+  
+  [![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker)](https://docker.com)
+  [![React](https://img.shields.io/badge/Frontend-React-61DAFB?logo=react)](https://reactjs.org)
+  [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?logo=fastapi)](https://fastapi.tiangolo.com)
+  [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python)](https://python.org)
+  
+  ![License](https://img.shields.io/badge/License-Enterprise-green)
+  ![Version](https://img.shields.io/badge/Version-1.0.0-orange)
+  ![Platform](https://img.shields.io/badge/Platform-Windows%20|%20Linux-lightgrey)
+  
+</div>
+
+---
 
 ## 🔒 Description
 CyberGuard Unified SOC est une plateforme de sécurité unifiée qui intègre plusieurs outils de cybersécurité open source pour fournir une vue d'ensemble complète de la sécurité de votre infrastructure.
@@ -24,6 +42,34 @@ La plateforme intègre les outils suivants dans une architecture containerisée 
 - **Elasticsearch** : Moteur de recherche (port 9200)
 - **Redis** : Cache et sessions (port 6379)
 - **MySQL** : Base de données MISP (port 3306)
+
+---
+
+## 🎨 Interface Utilisateur
+
+<div align="center">
+  
+  ### **🌟 Design Moderne avec Logo CSU Intégré**
+  
+  Notre interface utilisateur arbore fièrement le logo CSU dans toutes les sections principales :
+  
+  | Section | Description | Logo |
+  |---------|-------------|------|
+  | 🔐 **Page de Connexion** | Authentification sécurisée | Logo 100px centré |
+  | 📱 **Navigation** | Barre supérieure avec menu | Logo 40px + titre |
+  | 📋 **Menu Latéral** | Navigation entre services | Logo 32px compact |
+  | 🏠 **Dashboard** | Page d'accueil principale | Logo 60px + description |
+  
+  **✨ Fonctionnalités UI :**
+  - 🎨 Design Material-UI moderne
+  - 🌙 Thème sombre adaptatif
+  - 📱 Interface responsive
+  - 🔐 Système d'authentification intégré
+  - 🚪 Déconnexion sécurisée
+  
+</div>
+
+---
 
 ## 🖥️ Prérequis
 
@@ -252,6 +298,51 @@ sudo ./scripts/purge.sh
 sudo ./scripts/install.sh
 ```
 
+---
+
+## 🎨 Identité Visuelle et Branding
+
+<div align="center">
+  
+  ### **🏢 CSU - CyberGuard Unified SOC**
+  
+  ![CSU Logo](Logo/CSU Logo.png)
+  
+</div>
+
+### **🎯 Charte Graphique**
+
+| Élément | Spécification | Utilisation |
+|---------|---------------|-------------|
+| **Logo Principal** | `Logo/CSU Logo.png` | Interface principale |
+| **Logo Frontend** | `frontend/src/assets/csu-logo.png` | Application web |
+| **Couleurs** | Material-UI Dark Theme | Interface utilisateur |
+| **Typographie** | Roboto, sans-serif | Textes et titres |
+
+### **📱 Intégration Logo**
+
+- ✅ **Page de Connexion** - Logo proéminent 100px
+- ✅ **Barre de Navigation** - Logo 40px avec filtre blanc
+- ✅ **Menu Latéral** - Logo 32px avec titre abrégé
+- ✅ **Dashboard** - Logo 60px avec en-tête complet
+- ✅ **Documentation** - Logo dans README et docs
+
+### **🔧 Personnalisation**
+
+Pour personnaliser le logo :
+
+1. **Remplacer** le fichier `Logo/CSU Logo.png`
+2. **Copier** vers `frontend/src/assets/csu-logo.png`
+3. **Redéployer** le frontend
+
+```bash
+# Automatique avec nos scripts
+npm run build        # Frontend
+docker compose up -d # Déploiement
+```
+
+---
+
 ## 📚 Documentation
 
 - **📖 [Guide d'Installation Détaillé](docs/installation.md)**
@@ -426,20 +517,65 @@ docker-compose up -d
 docker-compose logs -f
 ```
 
-## Support
+## 📞 Support et Communauté
 
-- Issues GitHub : https://github.com/votre-username/cyberguard-unified-soc/issues
-- Documentation : ./docs/
-- Wiki : https://github.com/votre-username/cyberguard-unified-soc/wiki
+<div align="center">
+  
+  ### 🛠️ Aide et Documentation
+  
+  | Ressource | Description | Lien |
+  |-----------|-------------|------|
+  | 📚 **Documentation** | Guides complets d'installation et configuration | [`./docs/`](./docs/) |
+  | 🐛 **Issues GitHub** | Rapporter des bugs et demander des fonctionnalités | [Issues](https://github.com/votre-username/cyberguard-unified-soc/issues) |
+  | 📖 **Wiki** | Base de connaissances collaborative | [Wiki](https://github.com/votre-username/cyberguard-unified-soc/wiki) |
+  | 💬 **Discussions** | Forum communautaire | [Discussions](https://github.com/votre-username/cyberguard-unified-soc/discussions) |
+  
+</div>
 
-## Contribution
+## 🤝 Contribution
 
-1. Fork du projet
-2. Création d'une branche (`git checkout -b feature/nouvelle-fonctionnalite`)
-3. Commit des changements (`git commit -am 'Ajout d'une nouvelle fonctionnalité'`)
-4. Push vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
-5. Création d'une Pull Request
+<div align="center">
+  
+  **Nous accueillons toutes les contributions à CyberGuard Unified SOC !**
+  
+</div>
 
-## Licence
+### **📋 Processus de Contribution**
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+1. **🍴 Fork** du projet
+2. **🌿 Création** d'une branche (`git checkout -b feature/nouvelle-fonctionnalite`)
+3. **💾 Commit** des changements (`git commit -am 'Ajout d'une nouvelle fonctionnalité'`)
+4. **📤 Push** vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
+5. **🔄 Création** d'une Pull Request
+
+### **🎯 Types de Contributions**
+
+- 🐛 **Bug fixes** - Corrections de bugs
+- ✨ **Features** - Nouvelles fonctionnalités
+- 📚 **Documentation** - Améliorations de la documentation
+- 🧪 **Tests** - Ajout de tests unitaires
+- 🎨 **UI/UX** - Améliorations de l'interface
+
+## 📄 Licence
+
+<div align="center">
+  
+  **Ce projet est sous licence MIT**
+  
+  ![CSU Logo](Logo/CSU Logo.png)
+  
+  © 2025 **CyberGuard Unified SOC** - Tous droits réservés
+  
+  Voir le fichier [`LICENSE`](./LICENSE) pour plus de détails.
+  
+</div>
+
+---
+
+<div align="center">
+  
+  **⭐ Si ce projet vous aide, n'hésitez pas à lui donner une étoile ! ⭐**
+  
+  Made with ❤️ for the cybersecurity community
+  
+</div>

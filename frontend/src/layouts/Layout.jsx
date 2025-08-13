@@ -14,8 +14,10 @@ import {
   ListItemText,
   CssBaseline,
 } from '@mui/material';
+import csuLogo from '../assets/csu-logo.png';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import LogoutIcon from '@mui/icons-material/Logout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import SecurityIcon from '@mui/icons-material/Security';
 import StorageIcon from '@mui/icons-material/Storage';
@@ -81,7 +83,7 @@ const menuItems = [
   { text: 'Shuffle', icon: <AutomationIcon />, path: '/shuffle' },
 ];
 
-const Layout = ({ children }) => {
+const Layout = ({ children, user, onLogout }) => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -108,9 +110,36 @@ const Layout = ({ children }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            CyberGuard Unified SOC
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
+            <img 
+              src={csuLogo} 
+              alt="CSU Logo" 
+              style={{ 
+                height: '40px', 
+                width: 'auto',
+                filter: 'brightness(0) invert(1)' // Make logo white for dark theme
+              }} 
+            />
+            <Typography variant="h6" noWrap component="div">
+              CyberGuard Unified SOC
+            </Typography>
+          </Box>
+          
+          {/* User info and logout button */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {user && (
+              <Typography variant="body2" sx={{ color: 'inherit' }}>
+                Bienvenue, {user.username}
+              </Typography>
+            )}
+            <IconButton
+              color="inherit"
+              onClick={onLogout}
+              title="Se déconnecter"
+            >
+              <LogoutIcon />
+            </IconButton>
+          </Box>
         </Toolbar>
       </AppBarStyled>
       <Drawer
@@ -127,6 +156,19 @@ const Layout = ({ children }) => {
         open={open}
       >
         <DrawerHeader>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
+            <img 
+              src={csuLogo} 
+              alt="CSU Logo" 
+              style={{ 
+                height: '32px', 
+                width: 'auto'
+              }} 
+            />
+            <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
+              CSU SOC
+            </Typography>
+          </Box>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
