@@ -59,7 +59,7 @@ Usage : Production, SOC complet, entreprise
 #### **1️⃣ Préparation**
 ```powershell
 # Cloner le projet
-git clone https://github.com/votre-org/cyberguard-unified-soc.git
+git clone https://github.com/Eizi0/CyberGuard-Unified-SOC.git
 Set-Location "CyberGuard Unified SOC"
 
 # Vérifier les prérequis
@@ -103,7 +103,7 @@ powershell -ExecutionPolicy Bypass -File scripts\validate.ps1
 #### **1️⃣ Préparation**
 ```bash
 # Cloner le projet
-git clone https://github.com/votre-org/cyberguard-unified-soc.git
+git clone https://github.com/Eizi0/CyberGuard-Unified-SOC.git
 cd "CyberGuard Unified SOC"
 
 # Rendre les scripts exécutables
