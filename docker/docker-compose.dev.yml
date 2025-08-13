@@ -1,0 +1,133 @@
+version: '3.8'
+
+# Configuration DÉVELOPPEMENT pour tests et démo
+# RAM minimum : 4GB | Recommandé : 8GB
+
+services:
+  # Backend API Service
+  backend:
+    build: ../backend
+    container_name: cyberguard-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - MONGODB_URI=mongodb://mongodb:27017/cyberguard
+    volumes:
+      - ../backend:/app
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+
+  # Frontend Service
+  frontend:
+    build: ../frontend
+    container_name: cyberguard-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../frontend:/app
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+  # MongoDB for Backend
+  mongodb:
+    image: mongo:6.0-focal  # Version stable
+    container_name: cyberguard-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+  # Elasticsearch (Configuration développement)
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    container_name: cyberguard-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"  # Très réduit
+      - bootstrap.memory_lock=true
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 384m
+
+  # Wazuh Manager (Minimal)
+  wazuh-manager:
+    build: ./wazuh
+    container_name: wazuh-manager
+    ports:
+      - "55000:55000"  # API seulement
+    volumes:
+      - wazuh_data:/var/ossec
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+  # Graylog (Développement)
+  graylog:
+    image: graylog/graylog:4.3  # Image officielle
+    container_name: cyberguard-graylog
+    ports:
+      - "9000:9000"
+    environment:
+      - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD_SECRET}
+      - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_ROOT_PASSWORD_SHA2}
+      - GRAYLOG_HTTP_EXTERNAL_URI=http://localhost:9000/
+      - GRAYLOG_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - GRAYLOG_MONGODB_URI=mongodb://mongodb:27017/graylog
+      - GRAYLOG_HEAP_SIZE=256m  # Très réduit
+    depends_on:
+      - mongodb
+      - elasticsearch
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+  # Redis (Ultra léger)
+  redis:
+    image: redis:6.2-alpine
+    container_name: cyberguard-redis
+    command: redis-server --maxmemory 64mb --maxmemory-policy allkeys-lru
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 96m
+
+volumes:
+  mongodb_data:
+  elasticsearch_data:
+  graylog_data:
+  wazuh_data:
+
+networks:
+  default:
+    name: cyberguard-dev

@@ -1,104 +1,428 @@
-# Guide d'Installation CyberGuard Unified SOC
+# 🚀 Guide d'Installation CyberGuard Unified SOC
 
-Ce guide détaille l'installation complète de CyberGuard Unified SOC sur différents systèmes Linux.
+<div align="center">
+  <img src="../Logo/CSU Logo.png" alt="CSU Logo" width="150"/>
+  
+  **Guide d'Installation Complet - Multi-Plateforme**
+</div>
 
-## Prérequis Système
+---
 
-### Systèmes d'Exploitation Supportés
-- Ubuntu 20.04 LTS ou supérieur
-- Debian 11 ou supérieur  
-- CentOS 8 ou supérieur
-- RHEL 8 ou supérieur
-- Rocky Linux 8 ou supérieur
+## 🖥️ Systèmes Supportés
 
-### Configuration Matérielle Minimale
-- **CPU** : 8 cœurs
-- **RAM** : 16 Go
-- **Stockage** : 100 Go d'espace libre
-- **Réseau** : 1 Gbps
+### **🪟 Windows**
+- Windows 10/11 Pro (64-bit)
+- Windows Server 2019/2022
+- Docker Desktop avec WSL2
+- PowerShell 5.1+
 
-### Configuration Matérielle Recommandée
-- **CPU** : 16 cœurs ou plus
-- **RAM** : 32 Go ou plus
-- **Stockage** : 500 Go SSD
-- **Réseau** : 10 Gbps
+### **🐧 Linux**
+- Ubuntu 20.04+ LTS
+- Debian 11+
+- CentOS/RHEL 8+
+- Rocky Linux 8+
+- Docker Engine 24.x+
 
-### Logiciels Requis
-- **Docker Engine** : 24.x ou supérieur
-- **Docker Compose** : 2.x ou supérieur
-- **Git** : Version récente
-- **OpenSSL** : Pour la génération de certificats
-- **Curl/Wget** : Pour les téléchargements
+---
 
-### Ports Réseau Requis
-| Service | Port | Protocole | Usage |
-|---------|------|-----------|-------|
-| Frontend | 3000 | TCP | Interface utilisateur web |
-| Backend API | 8000 | TCP | API REST |
-| MongoDB | 27017 | TCP | Base de données principale |
-| Elasticsearch | 9200 | TCP | Moteur de recherche |
-| Redis | 6379 | TCP | Cache et sessions |
-| Wazuh Manager | 55000 | TCP | API Wazuh |
-| Wazuh Agent | 1514 | UDP | Communication agents |
-| Graylog Web | 9000 | TCP | Interface Graylog |
-| Graylog Syslog | 1514 | UDP | Réception logs |
-| Graylog GELF | 12201 | UDP | Réception logs GELF |
-| TheHive | 9001 | TCP | Gestion des incidents |
-| MISP | 443 | TCP | Threat Intelligence |
-| MISP HTTP | 80 | TCP | Redirection HTTPS |
-| OpenCTI | 8080 | TCP | CTI Platform |
-| Velociraptor | 8889 | TCP | Digital Forensics |
-| Shuffle | 3443 | TCP | Automatisation SOAR |
+## 📊 Profils de Déploiement
 
-## Installation Automatisée (Recommandée)
+CyberGuard Unified SOC propose **3 profils** selon vos ressources disponibles :
 
-### 1. Téléchargement et Préparation
-```bash
-# Cloner le repository
-git clone https://github.com/votre-org/cyberguard-unified-soc.git
-cd cyberguard-unified-soc
-
-# Rendre le script exécutable
-chmod +x scripts/install.sh
+### **🏁 Profil Développement**
+```
+RAM : 4-8GB | CPU : 4+ cores | Disque : 25GB
+Services : Core + Wazuh + Graylog
+Usage : Tests, démonstrations, développement
 ```
 
-### 2. Exécution de l'Installation
+### **⚡ Profil Minimal Production**
+```
+RAM : 8-12GB | CPU : 6+ cores | Disque : 50GB  
+Services : Core + 5 outils sécurité
+Usage : PME, environnements contraints, POC
+```
+
+### **🚀 Profil Complet Enterprise**
+```
+RAM : 16GB+ | CPU : 8+ cores | Disque : 100GB+
+Services : Tous les 9 outils + infrastructure complète
+Usage : Production, SOC complet, entreprise
+```
+
+---
+
+## 🤖 Installation Automatisée Intelligente (RECOMMANDÉE)
+
+### **🪟 Windows - Déploiement Intelligent**
+
+#### **1️⃣ Préparation**
+```powershell
+# Cloner le projet
+git clone https://github.com/votre-org/cyberguard-unified-soc.git
+Set-Location "CyberGuard Unified SOC"
+
+# Vérifier les prérequis
+docker --version
+docker-compose --version
+```
+
+#### **2️⃣ Déploiement avec Auto-Détection**
+```powershell
+# 🎯 OPTION 1 : Auto-détection et déploiement intelligent
+powershell -ExecutionPolicy Bypass -File scripts\auto-deploy.ps1
+```
+
+**Le script auto-deploy.ps1 :**
+- 🔍 **Détecte automatiquement** vos ressources (RAM, CPU, disque)
+- 🎯 **Recommande le profil optimal** selon votre configuration
+- ⚙️ **Configure automatiquement** l'environnement
+- 🚀 **Déploie les services** avec le profil choisi
+- ✅ **Valide l'installation** et affiche les URLs d'accès
+
+#### **3️⃣ Déploiement Manuel par Profil**
+```powershell
+# 🏁 Profil Développement (4-8GB)
+docker-compose -f docker\docker-compose.dev.yml up -d
+
+# ⚡ Profil Minimal (8-12GB)  
+docker-compose -f docker\docker-compose.minimal.yml up -d
+
+# 🚀 Profil Complet (16GB+)
+docker-compose -f docker\docker-compose.yml up -d
+```
+
+#### **4️⃣ Validation Windows**
+```powershell
+# Vérifier l'installation
+powershell -ExecutionPolicy Bypass -File scripts\validate.ps1
+```
+
+### **🐧 Linux - Déploiement Intelligent**
+
+#### **1️⃣ Préparation**
 ```bash
-# Exécuter en tant que root (ou avec sudo)
+# Cloner le projet
+git clone https://github.com/votre-org/cyberguard-unified-soc.git
+cd "CyberGuard Unified SOC"
+
+# Rendre les scripts exécutables
+chmod +x scripts/*.sh
+```
+
+#### **2️⃣ Déploiement avec Auto-Détection**
+```bash
+# 🎯 OPTION 1 : Auto-détection et déploiement intelligent
+sudo ./scripts/auto-deploy.sh
+```
+
+**Le script auto-deploy.sh :**
+- 🔍 **Analyse les ressources** système automatiquement
+- 📊 **Calcule le profil optimal** avec des seuils intelligents
+- ⚠️ **Affiche des avertissements** pour les configurations limites
+- 🛠️ **Installe Docker** si nécessaire (Linux)
+- 🚀 **Lance le déploiement** avec validation
+
+#### **3️⃣ Installation Complète Linux**
+```bash
+# 🎯 OPTION 2 : Installation complète avec détection OS
 sudo ./scripts/install.sh
 ```
 
-Le script automatisé effectue les actions suivantes :
-- Détection automatique du système d'exploitation
-- Vérification des prérequis système
-- Installation de Docker et Docker Compose
-- Configuration du système (limits, sysctl)
-- Création de la structure de projet
-- Configuration des variables d'environnement
-- Génération des certificats SSL
-- Construction et démarrage des services
-- Vérification de l'installation
+**Le script install.sh :**
+- 🐧 **Détecte l'OS** (Ubuntu, Debian, CentOS, etc.)
+- 📦 **Installe Docker** et dépendances automatiquement
+- ⚙️ **Configure le système** (limits, sysctl, firewall)
+- 🔐 **Génère les certificats** SSL automatiquement
+- 🚀 **Déploie avec le profil** approprié
 
-## Installation Manuelle
-
-### 1. Préparation du Système
-
-#### Ubuntu/Debian
+#### **4️⃣ Validation Linux**
 ```bash
-# Mise à jour du système
-sudo apt update && sudo apt upgrade -y
+# Vérifier l'installation
+sudo ./scripts/health-check.sh
+```
 
-# Installation des dépendances
-sudo apt install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release \
-    wget \
-    unzip \
-    git \
-    htop \
+---
+
+## 🎛️ Interface de Sélection Interactive
+
+Les scripts proposent un **menu interactif** :
+
+```
+🔍 Détection des ressources système...
+📊 Ressources système détectées :
+   💾 RAM Totale : 16.0 GB
+   💾 RAM Disponible : 12.8 GB  
+   🖥️  Cœurs CPU : 8
+   💿 Espace Disque : 250.5 GB
+
+✅ Recommandation : Profil COMPLET
+   Tous les 9 outils de sécurité seront déployés
+
+Que souhaitez-vous faire ?
+1. 🚀 Déployer avec le profil recommandé
+2. 🔧 Choisir un autre profil manuellement  
+3. 📊 Voir les détails des profils
+4. ❌ Annuler
+
+Votre choix (1-4): _
+```
+
+---
+
+## 📋 Comparaison des Profils
+
+| Fonctionnalité | 🏁 Développement | ⚡ Minimal | 🚀 Complet |
+|----------------|------------------|------------|------------|
+| **Frontend React** | ✅ | ✅ | ✅ |
+| **Backend FastAPI** | ✅ | ✅ | ✅ |
+| **MongoDB** | ✅ | ✅ | ✅ |
+| **Elasticsearch** | ✅ (256MB) | ✅ (512MB) | ✅ (2GB) |
+| **Wazuh SIEM** | ✅ (API only) | ✅ | ✅ |
+| **Graylog** | ✅ (256MB heap) | ✅ (512MB heap) | ✅ (1GB heap) |
+| **TheHive** | ❌ | ✅ | ✅ |
+| **MISP** | ❌ | ❌ | ✅ |
+| **OpenCTI** | ❌ | ❌ | ✅ |
+| **Velociraptor** | ❌ | ❌ | ✅ |
+| **Shuffle** | ❌ | ❌ | ✅ |
+| **Redis** | ✅ (64MB) | ✅ (128MB) | ✅ (256MB) |
+| **MySQL** | ❌ | ❌ | ✅ |
+
+---
+
+## 🌐 Accès aux Services Après Installation
+
+### **📱 Interfaces Principales**
+| Service | URL | Profil | Description |
+|---------|-----|--------|-------------|
+| **🏠 Frontend** | http://localhost:3000 | Tous | Interface principale avec logo CSU |
+| **🔧 Backend API** | http://localhost:8000 | Tous | API REST + documentation Swagger |
+
+### **🛡️ Outils de Sécurité**
+| Service | URL | Profil | Identifiants par défaut |
+|---------|-----|--------|-------------------------|
+| **📊 Graylog** | http://localhost:9000 | Tous | admin / admin |
+| **🔍 Wazuh** | http://localhost:55000 | Tous | wazuh-api / changeme |
+| **🐝 TheHive** | http://localhost:9001 | Minimal+ | Configuration requise |
+| **🔗 MISP** | https://localhost:443 | Complet | admin@cyberguard.local |
+| **🧠 OpenCTI** | http://localhost:8080 | Complet | admin@cyberguard.local |
+| **🔬 Velociraptor** | http://localhost:8889 | Complet | admin / cyberguard_password |
+| **⚡ Shuffle** | https://localhost:3443 | Complet | Configuration requise |
+
+### **💾 Services Infrastructure**
+| Service | Port | Profil | Usage |
+|---------|------|--------|-------|
+| **MongoDB** | 27017 | Tous | Base de données principale |
+| **Elasticsearch** | 9200 | Tous | Moteur de recherche et indexation |
+| **Redis** | 6379 | Tous | Cache et sessions |
+| **MySQL** | 3306 | Complet | Base de données MISP |
+
+---
+
+## 🛠️ Post-Installation
+
+### **✅ Validation de l'Installation**
+
+#### **Windows**
+```powershell
+# Validation complète
+powershell -ExecutionPolicy Bypass -File scripts\validate.ps1
+
+# Vérification manuelle des services
+docker-compose ps
+docker stats --no-stream
+```
+
+#### **Linux**
+```bash
+# Validation complète
+sudo ./scripts/health-check.sh
+
+# Diagnostic approfondi  
+sudo ./scripts/diagnostic.sh
+
+# Vérification manuelle
+docker-compose ps
+docker stats --no-stream
+```
+
+### **🔧 Commandes de Gestion**
+
+#### **Gestion des Services**
+```bash
+# Voir les logs en temps réel
+docker-compose logs -f
+
+# Redémarrer un service spécifique
+docker-compose restart [service_name]
+
+# Voir l'utilisation des ressources
+docker stats
+
+# Arrêter tous les services
+docker-compose down
+```
+
+#### **Maintenance**
+```bash
+# Mise à jour des images
+docker-compose pull
+docker-compose up -d
+
+# Nettoyage du système
+docker system prune -f
+
+# Sauvegarde des données
+./scripts/backup.sh  # Linux
+scripts\backup.ps1   # Windows
+```
+
+---
+
+## 🚨 Dépannage
+
+### **❌ Problèmes Courants**
+
+#### **Services qui ne démarrent pas**
+```bash
+# Diagnostic des erreurs
+docker-compose ps
+docker-compose logs [service_name]
+
+# Redémarrage complet
+docker-compose down -v
+docker-compose up -d
+```
+
+#### **Manque de ressources**
+```bash
+# Windows - Vérifier les ressources
+Get-WmiObject -Class Win32_ComputerSystem
+docker stats
+
+# Linux - Vérifier les ressources  
+free -h
+df -h
+docker stats
+```
+
+#### **Problèmes de ports**
+```bash
+# Vérifier les ports utilisés
+netstat -tulpn | grep :3000
+ss -tulpn | grep :3000
+
+# Windows
+netstat -an | findstr :3000
+```
+
+### **🔄 Réinitialisation Complète**
+
+#### **Windows**
+```powershell
+# Nettoyage complet
+powershell -ExecutionPolicy Bypass -File scripts\purge.ps1
+
+# Redéploiement
+powershell -ExecutionPolicy Bypass -File scripts\auto-deploy.ps1
+```
+
+#### **Linux**  
+```bash
+# Nettoyage complet
+sudo ./scripts/purge.sh
+
+# Redéploiement
+sudo ./scripts/auto-deploy.sh
+```
+
+---
+
+## 🔐 Configuration de Sécurité
+
+### **🔑 Changement des Mots de Passe**
+
+Modifiez le fichier `.env` avant le déploiement :
+
+```bash
+# Éditeur de votre choix
+nano .env          # Linux
+notepad .env       # Windows
+```
+
+**Variables importantes à changer :**
+```env
+# MongoDB
+MONGO_INITDB_ROOT_PASSWORD=votre_mot_de_passe_mongodb
+
+# Graylog
+GRAYLOG_PASSWORD_SECRET=votre_secret_graylog_64_caracteres
+GRAYLOG_ROOT_PASSWORD_SHA2=votre_hash_sha2_du_mot_de_passe
+
+# OpenCTI
+OPENCTI_ADMIN_PASSWORD=votre_mot_de_passe_opencti
+OPENCTI_TOKEN=votre_token_securise_opencti
+
+# Autres services
+THEHIVE_SECRET=votre_secret_thehive
+SHUFFLE_AUTH_SECRET=votre_secret_shuffle
+```
+
+### **🔒 Génération de Mots de Passe Sécurisés**
+
+#### **Windows**
+```powershell
+# Générer un mot de passe aléatoire
+[System.Web.Security.Membership]::GeneratePassword(32, 8)
+
+# Hash SHA2 pour Graylog
+echo -n "votre_mot_de_passe" | openssl sha256
+```
+
+#### **Linux**
+```bash
+# Générer un mot de passe aléatoire
+openssl rand -base64 32
+
+# Hash SHA2 pour Graylog
+echo -n "votre_mot_de_passe" | sha256sum
+```
+
+---
+
+## 📞 Support et Assistance
+
+### **🛠️ Auto-Diagnostic**
+```bash
+# Windows
+powershell -ExecutionPolicy Bypass -File scripts\diagnostic.ps1
+
+# Linux  
+sudo ./scripts/diagnostic.sh
+```
+
+### **📚 Documentation**
+- **Architecture** : `docs/architecture.md`
+- **Configuration** : `docs/configuration.md`
+- **Dépannage** : `docs/troubleshooting.md`
+- **Sécurité** : `docs/security.md`
+
+### **🐛 Signalement de Problèmes**
+- **Issues GitHub** : https://github.com/votre-org/cyberguard-unified-soc/issues
+- **Logs système** : Toujours inclure les logs Docker
+- **Configuration** : Spécifier le profil utilisé et les ressources système
+
+---
+
+<div align="center">
+  
+  **✅ Installation Terminée avec Succès !**
+  
+  Votre **CyberGuard Unified SOC** est maintenant opérationnel avec le logo CSU intégré 🎉
+  
+  ![CSU Logo](../Logo/CSU Logo.png)
+  
+</div>
     net-tools \
     openssl
 ```

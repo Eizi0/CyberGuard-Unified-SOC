@@ -74,12 +74,62 @@ La plateforme intègre les outils suivants dans une architecture containerisée 
 ## 🖥️ Prérequis
 
 ### **Configuration Matérielle**
-| Composant | Minimum | Recommandé |
-|-----------|---------|------------|
-| **CPU** | 8 cœurs | 16+ cœurs |
-| **RAM** | 16 GB | 32+ GB |
-| **Stockage** | 100 GB | 500+ GB SSD |
-| **Réseau** | 1 Gbps | 10+ Gbps |
+
+CyberGuard Unified SOC propose plusieurs profils de déploiement selon vos ressources :
+
+#### **🏁 Profil Développement (4-8GB RAM)**
+| Composant | Minimum | Services Inclus |
+|-----------|---------|-----------------|
+| **CPU** | 4 cœurs | Backend, Frontend, Wazuh, Graylog, Elasticsearch |
+| **RAM** | 4 GB | Configuration allégée pour tests |
+| **Stockage** | 50 GB | Données de développement |
+| **Réseau** | 100 Mbps | Tests locaux |
+
+#### **⚡ Profil Minimal Production (8-12GB RAM)**
+| Composant | Minimum | Services Inclus |
+|-----------|---------|-----------------|
+| **CPU** | 6 cœurs | Core services + 3 outils sécurité |
+| **RAM** | 8 GB | Configuration optimisée mémoire |
+| **Stockage** | 100 GB | Données limitées |
+| **Réseau** | 1 Gbps | PME/Petits environnements |
+
+#### **🚀 Profil Complet Recommandé (16GB+ RAM)**
+| Composant | Minimum | Recommandé | Services Inclus |
+|-----------|---------|------------|-----------------|
+| **CPU** | 8 cœurs | 16+ cœurs | Tous les 9 outils intégrés |
+| **RAM** | 16 GB | 32+ GB | Performance optimale |
+| **Stockage** | 100 GB | 500+ GB SSD | Rétention étendue |
+| **Réseau** | 1 Gbps | 10+ Gbps | Entreprise/SOC complet |
+
+### **🔍 Pourquoi 16GB Minimum pour le Profil Complet ?**
+
+#### **📊 Répartition Mémoire Détaillée :**
+```
+┌─────────────────────────────────────────────────────────────┐
+│              Consommation RAM par Service                   │
+├─────────────────────────────────────────────────────────────┤
+│ Elasticsearch    │ 1-2GB  │ Index + Search + JVM Heap      │
+│ Graylog         │ 1-2GB  │ Log Processing + JVM           │
+│ MongoDB         │ 1-2GB  │ Database + Cache               │
+│ Wazuh Manager   │ 0.5-1GB│ SIEM Rules + Agent Management  │
+│ OpenCTI         │ 0.5-1GB│ Threat Intel + GraphQL         │
+│ TheHive         │ 0.5-1GB│ Case Management + Scala        │
+│ MISP            │ 0.5-1GB│ Threat Sharing + PHP           │
+│ MySQL           │ 256MB  │ MISP Database                  │
+│ Redis           │ 128MB  │ Cache Layer                    │
+│ Velociraptor    │ 256MB  │ Digital Forensics              │
+│ Shuffle         │ 256MB  │ SOAR Workflows                 │
+│ Frontend        │ 256MB  │ React Dev Server               │
+│ Backend         │ 256MB  │ FastAPI                        │
+├─────────────────────────────────────────────────────────────┤
+│ Total Services  │ ~8-12GB│ Tous les containers            │
+│ Docker Overhead │ 1-2GB  │ Engine + Networking            │
+│ Host OS         │ 2-4GB  │ Système d'exploitation         │
+│ Buffer Sécurité │ 2GB    │ Pics de charge + Évolutivité   │
+├─────────────────────────────────────────────────────────────┤
+│ TOTAL REQUIS    │ 16GB   │ Fonctionnement stable          │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### **Systèmes Supportés**
 
@@ -101,7 +151,34 @@ La plateforme intègre les outils suivants dans une architecture containerisée 
 - **Docker Compose** : 2.x ou supérieur
 - **Git** : Version récente
 
-## 🚀 Installation
+### **🚀 Installation**
+
+#### **📋 Choix du Profil de Déploiement**
+
+Selon vos ressources disponibles, choisissez le profil approprié :
+
+```bash
+# 🤖 OPTION 1 : Auto-détection intelligente (RECOMMANDÉE)
+# Windows
+powershell -ExecutionPolicy Bypass -File scripts\auto-deploy.ps1
+
+# Linux  
+sudo ./scripts/auto-deploy.sh
+
+# 📋 OPTION 2 : Sélection manuelle par profil
+# 🏁 Profil Développement (4-8GB RAM) - Services essentiels
+docker-compose -f docker/docker-compose.dev.yml up -d
+
+# ⚡ Profil Minimal (8-12GB RAM) - Core + sécurité de base  
+docker-compose -f docker/docker-compose.minimal.yml up -d
+
+# 🚀 Profil Complet (16GB+ RAM) - Tous les services
+docker-compose -f docker/docker-compose.yml up -d
+```
+
+### **⚡ Démarrage Rapide (5 minutes)**
+
+**Nouveau utilisateur ?** Suivez notre [**Guide de Démarrage Rapide**](docs/quick-start.md) pour une installation en 5 minutes avec détection automatique des ressources !
 
 ### **🪟 Installation Windows**
 
@@ -517,7 +594,33 @@ docker-compose up -d
 docker-compose logs -f
 ```
 
-## 📞 Support et Communauté
+## � Documentation Complète
+
+<div align="center">
+  
+  ### **🎯 Guides par Objectif**
+  
+  | Guide | Description | Temps | Utilisateur |
+  |-------|-------------|-------|-------------|
+  | **[⚡ Démarrage Rapide](docs/quick-start.md)** | Installation en 5 minutes avec auto-détection | ⏱️ 5 min | 🆕 Nouveau |
+  | **[🚀 Installation Complète](docs/installation.md)** | Guide détaillé multi-plateforme avec profils | ⏱️ 30 min | 🔧 Admin |
+  | **[👥 Guide Utilisateur](docs/user-guide.md)** | Interface et workflows avec logo CSU | ⏱️ 15 min | 👤 Utilisateur |
+  | **[🏗️ Architecture](docs/architecture.md)** | Spécifications techniques Windows/Linux | ⏱️ 20 min | 🏗️ Architecte |
+  | **[🎨 Branding](docs/branding.md)** | Guidelines identité visuelle CSU | ⏱️ 10 min | 🎨 Designer |
+  
+</div>
+
+### **📖 Documentation Technique**
+
+- **[🔧 Configuration](docs/configuration.md)** - Paramétrage avancé des services
+- **[🔐 Sécurité](docs/security.md)** - Hardening et bonnes pratiques
+- **[🛠️ Maintenance](docs/maintenance.md)** - Sauvegarde, mise à jour, monitoring
+- **[🚨 Dépannage](docs/troubleshooting.md)** - Résolution des problèmes courants
+- **[📋 Administration](docs/administration.md)** - Gestion utilisateurs et permissions
+
+---
+
+## �📞 Support et Communauté
 
 <div align="center">
   

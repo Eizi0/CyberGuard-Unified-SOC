@@ -1,0 +1,173 @@
+version: '3.8'
+
+# Configuration MINIMALE pour environnements contraints
+# RAM minimum : 8GB | Recommandé : 12GB
+
+services:
+  # Backend API Service
+  backend:
+    build: ../backend
+    container_name: cyberguard-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - MONGODB_URI=mongodb://mongodb:27017/cyberguard
+    volumes:
+      - ../backend:/app
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+        reservations:
+          memory: 128m
+
+  # Frontend Service
+  frontend:
+    build: ../frontend
+    container_name: cyberguard-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../frontend:/app
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+        reservations:
+          memory: 256m
+
+  # MongoDB for Backend (Shared for all)
+  mongodb:
+    image: mongo:latest
+    container_name: cyberguard-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+        reservations:
+          memory: 512m
+
+  # Elasticsearch (Configuration allégée)
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    container_name: cyberguard-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms256m -Xmx512m"  # Réduit de 512m
+      - bootstrap.memory_lock=true
+      - cluster.routing.allocation.disk.threshold_enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 768m
+        reservations:
+          memory: 512m
+
+  # Wazuh Manager (Optimisé)
+  wazuh-manager:
+    build: ./wazuh
+    container_name: wazuh-manager
+    ports:
+      - "1514:1514/udp"
+      - "1515:1515"
+      - "55000:55000"
+    volumes:
+      - wazuh_data:/var/ossec
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 768m
+        reservations:
+          memory: 384m
+
+  # Graylog (Configuration minimale)
+  graylog:
+    build: ./graylog
+    container_name: cyberguard-graylog
+    ports:
+      - "9000:9000"
+      - "12201:12201/udp"
+    environment:
+      - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD_SECRET}
+      - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_ROOT_PASSWORD_SHA2}
+      - GRAYLOG_HTTP_EXTERNAL_URI=${GRAYLOG_HTTP_EXTERNAL_URI}
+      - GRAYLOG_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - GRAYLOG_MONGODB_URI=mongodb://mongodb:27017/graylog
+      - GRAYLOG_HEAP_SIZE=512m  # Réduit
+    depends_on:
+      - mongodb
+      - elasticsearch
+    volumes:
+      - graylog_data:/usr/share/graylog/data
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 768m
+        reservations:
+          memory: 512m
+
+  # TheHive (Optimisé)
+  thehive:
+    build: ./thehive
+    container_name: thehive
+    ports:
+      - "9001:9001"
+    volumes:
+      - thehive_data:/opt/thp/thehive/data
+    environment:
+      - THP_SECRET=${THEHIVE_SECRET:-changeme_in_production}
+      - JVM_OPTS=-Xms256m -Xmx512m  # Limité
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 640m
+        reservations:
+          memory: 320m
+
+  # Redis (Configuration légère)
+  redis:
+    image: redis:6.2-alpine  # Version allégée
+    container_name: cyberguard-redis
+    command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 192m
+        reservations:
+          memory: 96m
+
+volumes:
+  mongodb_data:
+  elasticsearch_data:
+  graylog_data:
+  wazuh_data:
+  thehive_data:
+
+networks:
+  default:
+    name: cyberguard-minimal
