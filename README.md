@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="Logo/CSU_Logo.png" alt="CSU Logo" width="200"/>
+  <img src="Logo/CSU_Logo.png" alt="CSU Logo" width="300"/>
   
   # CyberGuard Unified SOC
   
