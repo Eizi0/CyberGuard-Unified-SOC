@@ -1,5 +1,6 @@
 <div align="center">
   <img src="Logo/CSU_Logo.png" alt="CSU Logo" width="200"/>
+  
   # CyberGuard Unified SOC
   
   **🚀 Plateforme de Sécurité Unifiée - Security Operations Center**
