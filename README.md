@@ -560,9 +560,9 @@ docker-compose logs -f
   | Ressource | Description | Lien |
   |-----------|-------------|------|
   | 📚 **Documentation** | Guides complets d'installation et configuration | [`./docs/`](./docs/) |
-  | 🐛 **Issues GitHub** | Rapporter des bugs et demander des fonctionnalités | [Issues](https://github.com/votre-username/cyberguard-unified-soc/issues) |
-  | 📖 **Wiki** | Base de connaissances collaborative | [Wiki](https://github.com/votre-username/cyberguard-unified-soc/wiki) |
-  | 💬 **Discussions** | Forum communautaire | [Discussions](https://github.com/votre-username/cyberguard-unified-soc/discussions) |
+  | 🐛 **Issues GitHub** | Rapporter des bugs et demander des fonctionnalités | [Issues](https://github.com/Eizi0/cyberguard-unified-soc/issues) |
+  | 📖 **Wiki** | Base de connaissances collaborative | [Wiki](https://github.com/Eizi0/cyberguard-unified-soc/wiki) |
+  | 💬 **Discussions** | Forum communautaire | [Discussions](https://github.com/Eizi0/cyberguard-unified-soc/discussions) |
   
 </div>
 
