@@ -26,6 +26,9 @@ services:
       - ../frontend:/app
     environment:
       - REACT_APP_API_URL=http://localhost:8000
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
     restart: unless-stopped
 
   # MongoDB for Backend
@@ -94,11 +97,13 @@ services:
     build: ./thehive
     container_name: thehive
     ports:
-      - "9001:9001"
+      - "9001:9000"
     volumes:
       - thehive_data:/opt/thp/thehive/data
     environment:
       - THP_SECRET=${THEHIVE_SECRET:-changeme_in_production}
+      - THP_HTTP_HOST=0.0.0.0
+      - THP_HTTP_PORT=9000
     restart: unless-stopped
 
   # MISP

@@ -1,7 +1,14 @@
 from pydantic import BaseSettings
-from typing import Optional
+from typing import Optional, List
 
 class Settings(BaseSettings):
+    # CORS settings
+    CORS_ORIGINS: List[str] = [
+        "http://localhost:3000",
+        "http://frontend:3000",
+        "http://127.0.0.1:3000"
+    ]
+    
     # MongoDB settings
     MONGODB_URI: str = "mongodb://localhost:27017"
     DATABASE_NAME: str = "cyberguard"

@@ -16,22 +16,16 @@ COPY . .
 RUN npm run build
 
 # Production image
-FROM node:18-alpine
+FROM nginx:alpine
 
-WORKDIR /app
-
-# Install serve with specific version to avoid deprecation warnings
-RUN npm install -g serve@14.2.1 --no-audit --no-fund
+# Copier la configuration nginx
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy built assets from builder stage
-COPY --from=builder /app/build ./build
-
-# Set environment variables
-ENV NODE_ENV=production
-ENV PORT=3000
+COPY --from=builder /app/build /usr/share/nginx/html
 
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Command to run the application
-CMD ["serve", "-s", "build", "-l", "3000"]
+# Command to run nginx
+CMD ["nginx", "-g", "daemon off;"]

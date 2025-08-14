@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from config import settings
+from app.config import settings
 
 app = FastAPI(
     title="CyberGuard Unified SOC API",
@@ -11,15 +11,16 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=["http://localhost:3000", "http://frontend:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Import and include routers
-from api.routes import wazuh, graylog, thehive, misp, opencti, velociraptor, shuffle
+from app.routers import auth, graylog, misp, opencti, shuffle, thehive, velociraptor, wazuh
 
+app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(wazuh.router, prefix="/api/wazuh", tags=["Wazuh"])
 app.include_router(graylog.router, prefix="/api/graylog", tags=["Graylog"])
 app.include_router(thehive.router, prefix="/api/thehive", tags=["TheHive"])
