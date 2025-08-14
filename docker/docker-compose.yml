@@ -167,8 +167,18 @@ services:
     container_name: velociraptor
     ports:
       - "8889:8889"
+      - "8001:8001"
     volumes:
       - velociraptor_data:/opt/velociraptor/data
+      - velociraptor_logs:/var/log
+    environment:
+      - VELOCIRAPTOR_CONFIG=/etc/velociraptor/server.config.yaml
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8889/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     restart: unless-stopped
 
   # Shuffle
@@ -178,7 +188,23 @@ services:
     ports:
       - "3443:3443"
     volumes:
-      - shuffle_data:/opt/shuffle/data
+      - shuffle_data:/shuffle/data
+      - shuffle_logs:/shuffle/logs
+      - shuffle_apps:/shuffle/apps
+    environment:
+      - SHUFFLE_OPENSEARCH_URL=http://elasticsearch:9200
+      - SHUFFLE_REDIS_URL=redis://redis:6379
+      - DATASTORE_EMULATION=true
+      - SHUFFLE_ELASTIC=true
+    depends_on:
+      - elasticsearch
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3443/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
     restart: unless-stopped
 
 volumes:
@@ -192,4 +218,7 @@ volumes:
   misp_db_data:
   opencti_data:
   velociraptor_data:
+  velociraptor_logs:
   shuffle_data:
+  shuffle_logs:
+  shuffle_apps:

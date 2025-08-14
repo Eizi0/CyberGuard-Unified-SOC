@@ -304,6 +304,8 @@ Interface intégrée pour :
   
   Interface moderne avec logo CSU intégré pour une expérience professionnelle
   
+  ![CSU Logo](../Logo/CSU Logo.png)
+  
 </div>
 
 ### MISP

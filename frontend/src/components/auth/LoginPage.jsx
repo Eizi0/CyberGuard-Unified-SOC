@@ -17,7 +17,7 @@ import {
   Person,
   Lock,
 } from '@mui/icons-material';
-import csuLogo from '../../assets/csu-logo.png';
+// import csuLogo from '../../assets/csu-logo.png';
 
 const LoginPage = ({ onLogin }) => {
   const [formData, setFormData] = useState({
@@ -71,15 +71,24 @@ const LoginPage = ({ onLogin }) => {
       >
         {/* Logo and Title */}
         <Box sx={{ textAlign: 'center', mb: 4 }}>
-          <img
-            src={csuLogo}
-            alt="CSU Logo"
-            style={{
-              height: '100px',
-              width: 'auto',
-              marginBottom: '16px',
+          <Box
+            sx={{
+              width: 100,
+              height: 100,
+              margin: '0 auto 16px',
+              backgroundColor: 'primary.main',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+              boxShadow: '0 4px 20px rgba(30, 60, 114, 0.3)',
             }}
-          />
+          >
+            <Typography variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
+              CSU
+            </Typography>
+          </Box>
           <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
             CyberGuard Unified SOC
           </Typography>

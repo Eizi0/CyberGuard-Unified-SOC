@@ -1,0 +1,17 @@
+# CyberGuard Unified SOC - Robots.txt
+
+# Permettre l'indexation de la page principale
+User-agent: *
+Allow: /
+
+# Interdire l'accès aux API et données sensibles
+Disallow: /api/
+Disallow: /admin/
+Disallow: /config/
+Disallow: /logs/
+
+# Sitemap (à créer si nécessaire)
+# Sitemap: https://votre-domaine.com/sitemap.xml
+
+# Crawler delay (pour éviter la surcharge)
+Crawl-delay: 10

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1976d2" />
+    <meta name="description" content="CyberGuard Unified SOC - Plateforme de cybersécurité unifiée avec intégration de 9 outils de sécurité essentiels" />
+    <meta name="keywords" content="cybersecurity, SOC, security operations center, threat detection, incident response, SIEM, threat intelligence" />
+    <meta name="author" content="CSU - CyberGuard Unified SOC" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://github.com/Eizi0/CyberGuard-Unified-SOC" />
+    <meta property="og:title" content="CyberGuard Unified SOC" />
+    <meta property="og:description" content="Plateforme de cybersécurité unifiée avec intégration de 9 outils de sécurité essentiels" />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://github.com/Eizi0/CyberGuard-Unified-SOC" />
+    <meta property="twitter:title" content="CyberGuard Unified SOC" />
+    <meta property="twitter:description" content="Plateforme de cybersécurité unifiée avec intégration de 9 outils de sécurité essentiels" />
+    <meta property="twitter:image" content="%PUBLIC_URL%/og-image.png" />
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <title>CyberGuard Unified SOC - Plateforme de Cybersécurité Unifiée</title>
+    
+    <style>
+      /* Loading styles */
+      .loading-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        font-family: 'Inter', sans-serif;
+      }
+      
+      .loading-content {
+        text-align: center;
+        color: white;
+      }
+      
+      .loading-logo {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 20px;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="white" stroke-width="4" fill="none" stroke-dasharray="125.6" stroke-dashoffset="125.6"><animate attributeName="stroke-dashoffset" dur="2s" values="125.6;0" repeatCount="indefinite"/></circle></svg>') center/contain no-repeat;
+      }
+      
+      .loading-text {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        opacity: 0;
+        animation: fadeIn 1s ease-in-out 0.5s forwards;
+      }
+      
+      .loading-subtitle {
+        font-size: 14px;
+        opacity: 0.8;
+        opacity: 0;
+        animation: fadeIn 1s ease-in-out 1s forwards;
+      }
+      
+      @keyframes fadeIn {
+        to { opacity: 1; }
+      }
+      
+      /* Hide loading when React loads */
+      #root:not(:empty) + .loading-container {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <div style="padding: 20px; text-align: center; font-family: Arial, sans-serif;">
+        <h1>JavaScript Requis</h1>
+        <p>Vous devez activer JavaScript pour utiliser CyberGuard Unified SOC.</p>
+        <p>Cette application nécessite JavaScript pour fonctionner correctement.</p>
+      </div>
+    </noscript>
+    
+    <!-- Main React App Container -->
+    <div id="root"></div>
+    
+    <!-- Loading Screen (shown while React loads) -->
+    <div class="loading-container" id="loading-screen">
+      <div class="loading-content">
+        <div class="loading-logo"></div>
+        <div class="loading-text">CyberGuard Unified SOC</div>
+        <div class="loading-subtitle">Chargement de la plateforme de cybersécurité...</div>
+      </div>
+    </div>
+
+    <script>
+      // Hide loading screen when React app loads
+      const checkForReact = setInterval(() => {
+        const root = document.getElementById('root');
+        if (root && root.hasChildNodes()) {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transition = 'opacity 0.5s ease-out';
+            setTimeout(() => {
+              loadingScreen.remove();
+            }, 500);
+          }
+          clearInterval(checkForReact);
+        }
+      }, 100);
+      
+      // Fallback: remove loading screen after 10 seconds
+      setTimeout(() => {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+          loadingScreen.remove();
+        }
+        clearInterval(checkForReact);
+      }, 10000);
+    </script>
+  </body>
+</html>
