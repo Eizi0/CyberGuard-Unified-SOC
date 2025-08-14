@@ -19,7 +19,11 @@
 ```powershell
 # 1. Télécharger le projet
 git clone https://github.com/Eizi0/CyberGuard-Unified-SOC.git
+<<<<<<< HEAD
 cd "CyberGuard Unified SOC"
+=======
+cd "CyberGuard-Unified-SOC"
+>>>>>>> 0dade081a448b2e86c1ba9ce672710148e29e8c3
 
 # 2. Lancement automatique avec détection des ressources
 powershell -ExecutionPolicy Bypass -File scripts\auto-deploy.ps1
@@ -29,7 +33,11 @@ powershell -ExecutionPolicy Bypass -File scripts\auto-deploy.ps1
 ```bash
 # 1. Télécharger le projet
 git clone https://github.com/Eizi0/CyberGuard-Unified-SOC.git
+<<<<<<< HEAD
 cd "CyberGuard Unified SOC"
+=======
+cd "CyberGuard-Unified-SOC"
+>>>>>>> 0dade081a448b2e86c1ba9ce672710148e29e8c3
 
 # 2. Lancement automatique avec détection des ressources
 sudo ./scripts/auto-deploy.sh
@@ -269,8 +277,6 @@ docker system prune
   **🎉 Félicitations ! Votre CSU est opérationnel !**
   
   **En moins de 5 minutes, vous avez déployé une plateforme SOC complète**
-  
-  ![CSU Logo](../Logo/CSU Logo.png)
   
   **Prochaine étape :** Explorer l'interface et personnaliser votre installation
   
