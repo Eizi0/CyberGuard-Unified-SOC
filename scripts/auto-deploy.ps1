@@ -100,7 +100,17 @@ switch ($choice) {
     "1" {
         Write-Host ""
         Write-Host "🚀 Déploiement du profil $recommendedProfile..." -ForegroundColor Green
-        Set-Location "docker"
+        
+        # Navigation intelligente vers le dossier docker
+        if (Test-Path "docker") {
+            Set-Location "docker"
+        } elseif (Test-Path "..\docker") {
+            Set-Location "..\docker"
+        } else {
+            Write-Host "❌ Erreur : Dossier docker non trouvé" -ForegroundColor Red
+            Write-Host "   Assurez-vous d'être dans le projet CyberGuard" -ForegroundColor White
+            exit 1
+        }
         
         # Vérifier si Docker est démarré
         try {
@@ -156,7 +166,17 @@ switch ($choice) {
         if ($manualFiles.ContainsKey($manualChoice)) {
             $selectedFile = $manualFiles[$manualChoice]
             Write-Host "📄 Profil sélectionné : $selectedFile" -ForegroundColor Green
-            Set-Location "docker"
+            
+            # Navigation intelligente vers le dossier docker
+            if (Test-Path "docker") {
+                Set-Location "docker"
+            } elseif (Test-Path "..\docker") {
+                Set-Location "..\docker"
+            } else {
+                Write-Host "❌ Erreur : Dossier docker non trouvé" -ForegroundColor Red
+                exit 1
+            }
+            
             docker-compose -f $selectedFile up -d
         } else {
             Write-Host "❌ Choix invalide" -ForegroundColor Red

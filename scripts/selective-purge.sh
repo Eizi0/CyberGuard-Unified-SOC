@@ -60,7 +60,7 @@ purge_containers() {
     
     # Arrêter docker-compose
     if [[ -f "docker/docker-compose.yml" ]]; then
-        cd docker && (docker compose down -v || docker-compose down -v) 2>/dev/null && cd .. || true
+        cd ../docker && (docker compose down -v || docker-compose down -v) 2>/dev/null && cd ../../scripts || true
     fi
     
     # Arrêter tous les conteneurs

@@ -1,23 +1,104 @@
-# Guide de Dépannage
+# 🚨 Guide de Dépannage - CyberGuard Unified SOC
 
-Ce guide fournit des solutions aux problèmes courants rencontrés dans CyberGuard Unified SOC.
+<div align="center">
+  <img src="../Logo/CSU Logo.png" alt="CSU Logo" width="150"/>
+  
+  **Résolution de Problèmes Courants**
+</div>
 
-## Problèmes de Démarrage
+---
 
-### 1. Les Services ne Démarrent pas
+## 🔍 Diagnostic Automatique
 
-#### Symptômes
-- Les conteneurs ne démarrent pas
-- Erreurs dans les logs Docker
-- Services inaccessibles
+### **⚡ Test de Structure (NOUVEAU)**
 
-#### Solutions
+Avant tout déploiement, utilisez nos scripts de vérification :
+
+#### **🐧 Linux**
 ```bash
-# 1. Vérifier l'état des conteneurs
-docker-compose ps
+# Vérification complète de la structure
+./scripts/test-structure.sh
 
-# 2. Vérifier les logs
-docker-compose logs [service_name]
+# Si vous êtes dans le dossier scripts
+cd .. && ./scripts/test-structure.sh
+```
+
+#### **🪟 Windows**
+```powershell
+# Vérification complète de la structure
+powershell -ExecutionPolicy Bypass -File scripts\test-structure.ps1
+
+# Si vous êtes dans le dossier scripts
+cd .. ; powershell -ExecutionPolicy Bypass -File scripts\test-structure.ps1
+```
+
+**Ce script vérifie :**
+- ✅ Structure des dossiers
+- ✅ Fichiers Docker Compose
+- ✅ Scripts d'automatisation
+- ✅ Configuration et assets
+- ✅ État de Docker
+
+---
+
+## ❌ Erreurs de Déploiement Courantes
+
+### **🚨 NOUVEAU : Erreur de Chemin Docker**
+
+**Symptôme :**
+```bash
+/scripts/auto-deploy.sh: line 164: cd: docker: No such file or directory
+ERROR: FileNotFoundError: [Errno 2] No such file or directory: './docker-compose.minimal.yml'
+```
+
+**Cause :** Script exécuté depuis le mauvais répertoire ou chemin incorrect
+
+**✅ Solutions :**
+```bash
+# 1. Vérifier votre position actuelle
+pwd
+ls -la
+
+# 2. Si vous êtes dans /scripts, remonter d'un niveau
+cd ..
+
+# 3. Vérifier la structure avec notre outil
+./scripts/test-structure.sh
+
+# 4. Relancer le déploiement depuis la racine
+./scripts/auto-deploy.sh
+```
+
+**🔧 Fix appliqué :** Les scripts utilisent maintenant `cd ../docker` au lieu de `cd docker`
+
+---
+
+## 🐳 Problèmes Docker
+
+### **❌ Docker n'est pas démarré**
+
+#### **🐧 Linux**
+```bash
+# Démarrer Docker
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Vérifier le statut
+sudo systemctl status docker
+
+# Tester Docker
+docker version
+```
+
+#### **🪟 Windows**
+```powershell
+# 1. Ouvrir Docker Desktop
+# 2. Attendre le démarrage complet (icône verte dans la barre des tâches)
+
+# 3. Vérifier dans PowerShell
+docker version
+docker-compose --version
+```
 
 # 3. Vérifier les ressources système
 df -h  # Espace disque

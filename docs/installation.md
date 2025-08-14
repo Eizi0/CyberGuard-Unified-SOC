@@ -59,7 +59,7 @@ Usage : Production, SOC complet, entreprise
 #### **1️⃣ Préparation**
 ```powershell
 # Cloner le projet
-git clone https://github.com/votre-org/cyberguard-unified-soc.git
+git clone https://github.com/Eizi0/CyberGuard-Unified-SOC.git
 Set-Location "CyberGuard Unified SOC"
 
 # Vérifier les prérequis
@@ -103,7 +103,7 @@ powershell -ExecutionPolicy Bypass -File scripts\validate.ps1
 #### **1️⃣ Préparation**
 ```bash
 # Cloner le projet
-git clone https://github.com/votre-org/cyberguard-unified-soc.git
+git clone https://github.com/Eizi0/CyberGuard-Unified-SOC.git
 cd "CyberGuard Unified SOC"
 
 # Rendre les scripts exécutables
@@ -408,7 +408,7 @@ sudo ./scripts/diagnostic.sh
 - **Sécurité** : `docs/security.md`
 
 ### **🐛 Signalement de Problèmes**
-- **Issues GitHub** : https://github.com/votre-org/cyberguard-unified-soc/issues
+- **Issues GitHub** : https://github.com/Eizi0/CyberGuard-Unified-SOC/issues
 - **Logs système** : Toujours inclure les logs Docker
 - **Configuration** : Spécifier le profil utilisé et les ressources système
 
@@ -528,8 +528,8 @@ echo "* hard nofile 65536" | sudo tee -a /etc/security/limits.conf
 ### 6. Clone et Configuration du Projet
 ```bash
 # Clone du repository
-git clone https://github.com/votre-org/cyberguard-unified-soc.git
-cd cyberguard-unified-soc
+git clone https://github.com/Eizi0/CyberGuard-Unified-SOC.git
+cd CyberGuard-Unified-SOC
 
 # Configuration des variables d'environnement
 cp .env.example .env

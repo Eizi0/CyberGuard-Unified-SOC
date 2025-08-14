@@ -27,7 +27,7 @@ if [ -z "$1" ]; then
 fi
 
 BACKUP_FILE="$1"
-TEMP_DIR="./temp_restore"
+TEMP_DIR="../temp_restore"
 
 # Check if backup file exists
 if [ ! -f "$BACKUP_FILE" ]; then
@@ -44,8 +44,19 @@ tar -xzf "$BACKUP_FILE" -C "$TEMP_DIR"
 BACKUP_DIR=$(ls "$TEMP_DIR")
 print_success "Backup extracted"
 
-# Stop services
-print_message "Stopping services..."
+# Stop all services
+print_message "Stopping all services..."
+
+# Navigation intelligente vers le dossier docker
+if [ -d "docker" ]; then
+    cd docker || exit 1
+elif [ -d "../docker" ]; then
+    cd ../docker || exit 1
+else
+    print_error "Dossier docker non trouvé"
+    exit 1
+fi
+
 docker-compose down
 print_success "Services stopped"
 
@@ -116,5 +127,12 @@ rm -rf "$TEMP_DIR"
 print_message "Starting services..."
 docker-compose up -d
 print_success "Services started"
+
+# Navigation intelligente pour retourner à la position d'origine
+if [ -f "../scripts/restore.sh" ]; then
+    cd .. || exit 1
+elif [ -f "../../scripts/restore.sh" ]; then
+    cd ../.. || exit 1
+fi
 
 print_message "Restore process completed successfully!"

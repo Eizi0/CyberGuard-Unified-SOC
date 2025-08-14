@@ -24,7 +24,17 @@ if (!(Test-Path ".env")) {
 
 # Arrêt des services existants
 Write-Host "Arrêt des services existants..." -ForegroundColor Yellow
-Set-Location docker
+
+# Navigation intelligente vers le dossier docker
+if (Test-Path "docker") {
+    Set-Location "docker"
+} elseif (Test-Path "..\docker") {
+    Set-Location "..\docker"
+} else {
+    Write-Host "Erreur: Dossier docker non trouvé" -ForegroundColor Red
+    exit 1
+}
+
 docker-compose down -v
 
 # Nettoyage des volumes orphelins
@@ -81,5 +91,9 @@ Write-Host "OpenCTI: http://localhost:8080" -ForegroundColor Cyan
 Write-Host "Velociraptor: http://localhost:8889" -ForegroundColor Cyan
 Write-Host "Shuffle: https://localhost:3443" -ForegroundColor Cyan
 
-# Retour au répertoire parent
-Set-Location ..
+# Retour au répertoire d'origine
+if (Test-Path "..\scripts\deploy.ps1") {
+    Set-Location ".."
+} elseif (Test-Path "..\..\scripts\deploy.ps1") {
+    Set-Location "..\.."
+}

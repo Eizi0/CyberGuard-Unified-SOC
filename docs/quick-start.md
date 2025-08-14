@@ -18,7 +18,7 @@
 #### **🪟 Windows**
 ```powershell
 # 1. Télécharger le projet
-git clone https://github.com/votre-org/cyberguard-unified-soc.git
+git clone https://github.com/Eizi0/CyberGuard-Unified-SOC.git
 cd "CyberGuard Unified SOC"
 
 # 2. Lancement automatique avec détection des ressources
@@ -28,7 +28,7 @@ powershell -ExecutionPolicy Bypass -File scripts\auto-deploy.ps1
 #### **🐧 Linux**
 ```bash
 # 1. Télécharger le projet
-git clone https://github.com/votre-org/cyberguard-unified-soc.git
+git clone https://github.com/Eizi0/CyberGuard-Unified-SOC.git
 cd "CyberGuard Unified SOC"
 
 # 2. Lancement automatique avec détection des ressources

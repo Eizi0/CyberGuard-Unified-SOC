@@ -106,7 +106,17 @@ case $choice in
     1)
         echo ""
         echo -e "\033[1;32m🚀 Déploiement du profil $recommended_profile...\033[0m"
-        cd docker
+        
+        # Navigation intelligente vers le dossier docker
+        if [ -d "docker" ]; then
+            cd docker
+        elif [ -d "../docker" ]; then
+            cd ../docker
+        else
+            echo -e "\033[1;31m❌ Erreur : Dossier docker non trouvé\033[0m"
+            echo -e "\033[0;37m   Assurez-vous d'être dans le projet CyberGuard\033[0m"
+            exit 1
+        fi
         
         # Vérifier si Docker est démarré
         if docker version &>/dev/null; then
@@ -161,7 +171,17 @@ case $choice in
         esac
         
         echo -e "\033[1;32m📄 Profil sélectionné : $selected_file\033[0m"
-        cd docker
+        
+        # Navigation intelligente vers le dossier docker
+        if [ -d "docker" ]; then
+            cd docker
+        elif [ -d "../docker" ]; then
+            cd ../docker
+        else
+            echo -e "\033[1;31m❌ Erreur : Dossier docker non trouvé\033[0m"
+            exit 1
+        fi
+        
         docker-compose -f "$selected_file" up -d
         ;;
     

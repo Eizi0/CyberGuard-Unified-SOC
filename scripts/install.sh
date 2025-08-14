@@ -336,7 +336,15 @@ deploy_services() {
         COMPOSE_CMD="docker-compose"
     fi
     
-    cd docker || exit 1
+    # Navigation intelligente vers le dossier docker
+    if [ -d "docker" ]; then
+        cd docker || exit 1
+    elif [ -d "../docker" ]; then
+        cd ../docker || exit 1
+    else
+        print_error "Dossier docker non trouvé. Vérifiez la structure du projet."
+        exit 1
+    fi
     
     # Pull latest base images
     $COMPOSE_CMD pull mongodb elasticsearch redis
@@ -392,7 +400,15 @@ deploy_services() {
 verify_installation() {
     print_message "Verifying installation..."
     
-    cd docker || exit 1
+    # Navigation intelligente vers le dossier docker
+    if [ -d "docker" ]; then
+        cd docker || exit 1
+    elif [ -d "../docker" ]; then
+        cd ../docker || exit 1
+    else
+        print_error "Dossier docker non trouvé pour la vérification."
+        exit 1
+    fi
     
     if docker compose version &> /dev/null; then
         COMPOSE_CMD="docker compose"

@@ -3,7 +3,15 @@
 
 Write-Host "=== Validation des Services CyberGuard ===" -ForegroundColor Green
 
-Set-Location docker
+# Navigation intelligente vers le dossier docker
+if (Test-Path "docker") {
+    Set-Location "docker"
+} elseif (Test-Path "..\docker") {
+    Set-Location "..\docker"
+} else {
+    Write-Host "Erreur: Dossier docker non trouvé" -ForegroundColor Red
+    exit 1
+}
 
 # Fonction pour tester un service HTTP
 function Test-ServiceHealth {

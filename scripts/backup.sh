@@ -20,7 +20,7 @@ print_error() {
 }
 
 # Create backup directory
-BACKUP_DIR="./backups/$(date +%Y%m%d_%H%M%S)"
+BACKUP_DIR="../backups/$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$BACKUP_DIR"
 
 print_message "Starting backup process..."

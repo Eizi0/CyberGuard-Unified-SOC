@@ -2,6 +2,14 @@
   "name": "cyberguard-frontend",
   "version": "1.0.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Eizi0/CyberGuard-Unified-SOC.git"
+  },
+  "homepage": "https://github.com/Eizi0/CyberGuard-Unified-SOC",
+  "bugs": {
+    "url": "https://github.com/Eizi0/CyberGuard-Unified-SOC/issues"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
